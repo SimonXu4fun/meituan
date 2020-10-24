@@ -7,14 +7,18 @@
 			</div>
 		</van-sticky>
 		<category></category>
+		<div class="title">附近商家</div>
+		<list></list>
 	</div>
 </template>
 
 <script>
-	import category from './category.vue'
+	import category from './category'
+	import list from './list'
 	export default{
 		components:{
-			category
+			category,
+			list
 			}
 	}
 </script>
@@ -33,5 +37,22 @@
 			box-sizing: border-box;
 			font-size: 0.28rem;
 		}
+	}
+	.title{
+		font-size: 0.34rem;
+		font-weight: 800;
+		text-align: center;
+		height: 0.46rem;
+		line-height: 0.46rem;
+		margin: 0.3rem 0 0.1rem;
+	}
+	.title::after, .title::before{
+		content: "";
+		height: 1px;
+		transform: scaleY(0.5);
+		width: 30px;
+		display: inline-block;
+		background: #666;
+		vertical-align: middle;
 	}
 </style>

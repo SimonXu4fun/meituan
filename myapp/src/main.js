@@ -8,6 +8,8 @@ Vue.use(Vant);
 import 'vant/lib/index.css'
 import '@/assets/js/rem.js'
 import '@/assets/css/reset.css'
+import '@/assets/icon/iconfont.css'
+
 
 Vue.config.productionTip = false
 

@@ -10,7 +10,8 @@
 </template>
 
 <script>
-	import axios from 'axios'
+	//import axios from 'axios'
+	import {getCategroy} from '../../api/home.js'
 	export default{
 		data(){
 			return{
@@ -18,22 +19,18 @@
 			}
 		},
 		created: function() {
-			axios.get('./get_type.json').then(res =>{
+			/* axios.get('http://8.134.10.170/myapp/test/get_type.json').then(res =>{
 				// console.log(res);
 				//
 				if(res.data.errcode == 200){
 					// console.log(res.data.data);
 					this.cateList = res.data.data;
-					/* for(let ob of this.cateList){
-						console.log(ob.img);
-					} */
-					
 				}else{
 					console.log(res.data.errmsg)
 				}
 			}).catch(res=>{
 				console.log(res);
-			})
+			}) */
 			/* var xmlhttp;
 			xmlhttp=new XMLHttpRequest();
 			xmlhttp.onreadystatechange=function()
@@ -48,6 +45,9 @@
 			}
 			xmlhttp.open("GET","./get_type.json",true);
 			xmlhttp.send(); */
+			getCategroy().then(res =>{
+				this.cateList = res.data;
+			})
 		}
 	}
 </script>
