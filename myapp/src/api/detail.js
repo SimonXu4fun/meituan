@@ -6,3 +6,11 @@ export function getStoreById(data){
 		data
 	})
 }
+
+export function getProductById(data){
+	return request({
+		url:'/get_nav.json',
+		data
+	})
+	
+}

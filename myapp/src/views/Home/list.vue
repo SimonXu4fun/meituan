@@ -65,7 +65,15 @@ export default {
 				}
 				
 			});
-			
+			/* this.list = this.$store.state.storeList.slice(0,(this.current+1)*this.size);
+			// this.list = this.list.concat(res.data.list);
+			console.log(this.list);
+			this.loading = false;
+			this.current++;
+			this.total = this.$store.state.storeList.length;
+			if(this.list.length >= this.total){
+				this.finished = true
+			} */
 		},
 		goDetail(id){
 			this.$router.push({path:'/detail', query:{id}})
@@ -73,7 +81,7 @@ export default {
 	},
 	
 	created() {
-		this.$store.dispatch('getStoreList');
+		// this.$store.dispatch('getStoreList');
 	}
 }
 </script>

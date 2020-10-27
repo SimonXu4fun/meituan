@@ -1,65 +1,37 @@
 <template>
 	<div>
 		<div class="order-box">
-			<div class="menu-box">
+			<div class="menu-box" ref="menuBox">
 				<ul>
-					<li class="menu-list" active>当季推荐</li>
-					<li class="menu-list">当季推荐</li>
-					<li class="menu-list">当季推荐</li>
+					<li v-for="(item,index) in productList" 
+					:key="index" 
+					class="menu-list"
+					:class="{'active':currentIndex == index}"
+					@click="changeMenu(index)">{{item.name}}</li>
 				</ul>
 			</div>
-			<div class="prod-box">
+			<div class="prod-box" ref="prodBox">
 				<ul>
-					<li class="cate-list">
-						<div class="cate-title">当季推荐</div>
+					<li class="cate-list"  v-for="(item,typeIndex) in productList" :key="typeIndex">
+						<div class="cate-title">{{item.name}}</div>
 						<ul>
-							<li class="prod-list">
+							<li class="prod-list" v-for="(prod,index) in item.content" :key="prod.id">
 								<div class="prod-img-box">
-									<img src="../../assets/img/store1.jpg" />
+									<img :src="prod.img" />
 								</div>
 								<div class="prod-info">
-									<div class="name">北海道云朵吐司</div>
-									<div class="sale"><span class="num">月销112</span><span>赞90</span></div>
-									<div class="price">￥100</div>
+									<div class="name">{{prod.name}}</div>
+									<div class="sale"><span class="num">月销{{prod.num}}</span><span>赞{{prod.up}}</span></div>
+									<div class="price">￥{{prod.price}}</div>
+								</div>
+								<div class="add-cart-container">
+									<addCart :type="typeIndex" :index="index"></addCart>
 								</div>
 							</li>
-							<li class="prod-list">
-								<div class="prod-img-box">
-									<img src="../../assets/img/store1.jpg" />
-								</div>
-								<div class="prod-info">
-									<div class="name">北海道云朵吐司</div>
-									<div class="sale"><span class="num">月销112</span><span>赞90</span></div>
-									<div class="price">￥100</div>
-								</div>
-							</li>
+							
 						</ul>
 					</li>
-					<li class="cate-list">
-							<div class="cate-title">当季推荐</div>
-							<ul>
-								<li class="prod-list">
-									<div class="prod-img-box">
-										<img src="../../assets/img/store1.jpg" />
-									</div>
-									<div class="prod-info">
-										<div class="name">北海道云朵吐司</div>
-										<div class="sale"><span class="num">月销112</span><span>赞90</span></div>
-										<div class="price">￥100</div>
-									</div>
-								</li>
-								<li class="prod-list">
-									<div class="prod-img-box">
-										<img src="../../assets/img/store1.jpg" />
-									</div>
-									<div class="prod-info">
-										<div class="name">北海道云朵吐司</div>
-										<div class="sale"><span class="num">月销112</span><span>赞90</span></div>
-										<div class="price">￥100</div>
-									</div>
-								</li>
-							</ul>
-						</li>
+					
 				</ul>
 			</div>
 		</div>
@@ -67,15 +39,99 @@
 </template>
 
 <script>
+import {mapState} from 'vuex'
+import BScroll from 'better-scroll'
+import addCart from '@/components/addcart'
+export default {
+	data(){
+		return {
+			menuScroll: null,
+			prodScroll: null,
+			menuList:[],
+			currentIndex:0,
+			posY:[],
+			scrollY:0
+		}
+	},
+	components:{
+		addCart
+	},
+	methods:{
+		initScroll(){
+			this.menuScroll = new BScroll('.menu-box',{
+				bounce:false,
+				click:true
+			});
+			this.prodScroll = new BScroll('.prod-box',{
+				bounce:false,
+				probeType:3,
+				// click:true
+			});
+			// 获取右侧每个分类的垂直方向位置
+			this.getPosY();
+			//获取左侧li列表
+			this.menuList = this.$refs.menuBox.getElementsByClassName('menu-list');
+			this.prodScroll.on("scroll", e=>{
+				this.scrollY = Math.abs(Math.round(e.y));
+			})
+		},
+		changeMenu(index){
+			let prodList = this.$refs.prodBox.getElementsByClassName('cate-list');
+			let el = prodList[index];
+			this.prodScroll.scrollToElement(el,300);
+			this.currentIndex = index;
+		},
+		getPosY(){
+			let prodList = this.$refs.prodBox.getElementsByClassName('cate-list');
+			let y = 0;
+			for(let i=0;i<prodList.length;i++){
+				if(i==0){
+					this.posY.push((y));
+				}else{
+					let prevEle = prodList[i-1];
+					y += prevEle.offsetHeight;
+					this.posY.push(y);
+				}
+			}
+		}
+	},
+	computed:{
+		...mapState('product',['productList'])
+	},
+	created() {
+		this.$store.dispatch('product/getProdList', this.$route.query.id).then(() =>{
+			//初始化better-scroll
+			this.$nextTick(()=>{
+				this.initScroll();
+			})
+		})
+	},
+	watch:{
+		scrollY(val){
+			for(let i=0;i<this.posY.length;i++){
+				let pos1 = this.posY[i];
+				let pos2 = this.posY[i+1];
+				if(pos1 <= val && pos2 >val){
+					let el = this.menuList[i];
+					this.menuScroll.scrollToElement(el,300,0,-100);
+					this.currentIndex = i;
+					break;
+				}
+			}
+		}
+	}
+}
 </script>
 
 <style lang="scss">
 .order-box{
 	display: flex;
 	font-size: 14px;
+	height: calc(100vh - 44px);
 	.menu-box{
 		width: 1.6rem;
 		height: calc(100vh - 94px);
+		overflow: hidden;
 		flex: 0 0 1.6rem;
 		background: #f5f5f5;
 		.menu-list{
@@ -93,6 +149,7 @@
 		min-width: 0;
 		background: white;
 		height: calc(100vh - 94px);
+		overflow: hidden;
 		.cate-list{
 			padding: 0 0.2rem;
 			.cate-title{
@@ -102,16 +159,20 @@
 			.prod-list{
 				display: flex;
 				margin-bottom: 0.4rem;
+				position: relative;
 				.prod-img-box{
 					width: 1.5rem;
+					height: 1.5rem;
 					flex: 0 0 1.5rem;
 					margin-right: 0.15rem;
 					img{
 						width: 100%;
+						height: 100%;
 					}
 				}
 				.prod-info{
 					flex: 1;
+					min-width: 0;
 					.name{
 						font-size: 0.32rem;
 						color: #333;
@@ -134,6 +195,12 @@
 						color: red;
 						font-size: 0.36rem;
 					}
+				}
+				.add-cart-container{
+					position: absolute;
+					right: 0;
+					bottom: 0;
+					
 				}
 			}
 		}

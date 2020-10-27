@@ -6,52 +6,52 @@
 		{
 			"id":"1",
 			"name":"美食",
-			"img":"./img/type1.png"
+			"img":"myapp/img/type1.png"
 		},
 		{
 			"id":"2",
 			"name":"美团超市",
-			"img":"./img/type2.png"
+			"img":"myapp/img/type2.png"
 		},
 		{
 			"id":"3",
 			"name":"生鲜果蔬",
-			"img":"./img/type3.png"
+			"img":"myapp/img/type3.png"
 		},
 		{
 			"id":"4",
 			"name":"美团专送",
-			"img":"./img/type4.png"
+			"img":"myapp/img/type4.png"
 		},
 		{
 			"id":"5",
 			"name":"午餐优选",
-			"img":"./img/type5.png"
+			"img":"myapp/img/type5.png"
 		},
 		{
 			"id":"6",
 			"name":"甜点饮品",
-			"img":"./img/type6.png"
+			"img":"myapp/img/type6.png"
 		},
 		{
 			"id":"7",
 			"name":"小吃馆",
-			"img":"./img/type7.png"
+			"img":"myapp/img/type7.png"
 		},
 		{
 			"id":"8",
 			"name":"家常菜",
-			"img":"./img/type8.png"
+			"img":"myapp/img/type8.png"
 		},
 		{
 			"id":"9",
 			"name":"鲜花蛋糕",
-			"img":"./img/type9.png"
+			"img":"myapp/img/type9.png"
 		},
 		{
 			"id":"10",
 			"name":"品牌连锁",
-			"img":"./img/type10.png"
+			"img":"myapp/img/type10.png"
 		}
 	]
 }
