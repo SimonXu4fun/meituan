@@ -8,7 +8,7 @@
 		</ul>
 		<ul class="list-box">
 			<li class="list">
-				<span class="iconfont icon-peisong"></span>
+				<span class="iconfont icon-peisong1"></span>
 				<span>配送服务：提供美团高品质配送服务</span>
 			</li>
 			<li class="list">
@@ -47,7 +47,7 @@ export default{
 		.list{
 			font-size: 0.28rem;
 			color: #333;
-			padding-bottom: 0.36rem;
+			padding: 0.1rem 0 0.36rem 0;
 			.iconfont{
 				color: #c0c0c0;
 				margin-right: 0.26rem;

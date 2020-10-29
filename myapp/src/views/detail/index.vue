@@ -6,7 +6,9 @@
 				<van-tab title="菜单">
 					<order></order>
 				</van-tab>
-				<van-tab title="评价">内容 2</van-tab>
+				<van-tab title="评价">
+					<comment></comment>
+				</van-tab>
 				<van-tab title="商家">
 					<seller :seller="seller"></seller>
 				</van-tab>
@@ -23,6 +25,7 @@
 	import seller from './../seller';
 	import cart from './cart';
 	import BScroll from 'better-scroll'
+	import comment from './../comment'
 	
 	export default {
 		data(){
@@ -36,7 +39,8 @@
 			sellerHeader,
 			order,
 			seller,
-			cart
+			cart,
+			comment
 		},
 		methods:{
 			getStoreMsg(){

@@ -1,0 +1,175 @@
+{
+	"errcode": 200,
+	"errmsg": "成功",
+	"data": {
+		"rate": [{
+			"id": "1",
+			"portrait": "头像",
+			"name":"simon",
+			"time":"2020-10-29",
+			"content": "整体来讲，里面的米饭口感比较好。猪蹄的话，辣味是足的，看着也挺好看的，但是没什么肉...",
+			"store_id": "1",
+			"goods": "",
+			"duration": "22"
+			},
+			{
+				"id": "2",
+				"portrait": "头像",
+				"name":"我是傻子",
+				"time":"2020-10-29",
+				"content": "味道简直太棒了！而且份量也很足！经济实惠，点外卖的好选择",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "3",
+				"portrait": "头像",
+				"name":"23333",
+				"time":"2020-10-29",
+				"content": "忠实粉丝，一如既往的好",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "4",
+				"portrait": "头像",
+				"name":"名称",
+				"time":"2020-10-29",
+				"content": "今天的菜味道差好多，不怎么新鲜，口感上也比以前差的不止一个档次",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "5",
+				"portrait": "头像",
+				"name":"名称",
+				"time":"2020-10-29",
+				"content": "好评",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "6",
+				"portrait": "头像",
+				"name":"名称",
+				"time":"2020-10-29",
+				"content": "好评",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "7",
+				"portrait": "头像",
+				"name":"名称",
+				"time":"2020-10-29",
+				"content": "习惯好评",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "8",
+				"portrait": "头像",
+				"name":"名称",
+				"time":"2020-10-29",
+				"content": "味道简直太棒了！而且份量也很足！经济实惠，点外卖的好选择",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "9",
+				"portrait": "头像",
+				"name":"名称",
+				"time":"2020-10-29",
+				"content": "味道简直太棒了！而且份量也很足！经济实惠，点外卖的好选择",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "10",
+				"portrait": "头像",
+				"name":"名称",
+				"time":"2020-10-29",
+				"content": "好评",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "11",
+				"portrait": "头像",
+				"name":"名称",
+				"time":"2020-10-29",
+				"content": "好评",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			},
+			{
+				"id": "12",
+				"portrait": "头像",
+				"name":"名称",
+				"time":"2020-10-29",
+				"content": "味道简直太棒了！而且份量也很足！经济实惠，点外卖的好选择",
+				"store_id": "1",
+				"goods": "",
+				"duration": "22"
+			}],
+		"label": [{
+			"id": "1",
+			"name": "全部",
+			"count": "61"
+			},{
+			"id": "2",
+			"name": "差评",
+			"count": "4"
+			},{
+			"id": "3",
+			"name": "味道赞",
+			"count": "9"
+			},{
+			"id": "4",
+			"name": "价格实惠",
+			"count": "11"
+			},{
+			"id": "5",
+			"name": "满意",
+			"count": "11"
+			},{
+			"id": "6",
+			"name": "推荐",
+			"count": "2"
+			},{
+			"id": "7",
+			"name": "服务好",
+			"count": "0"
+			},{
+			"id": "8",
+			"name": "份量足",
+			"count": "0"
+			},{
+			"id": "9",
+			"name": "菜品差",
+			"count": "4"
+			},{
+			"id": "10",
+			"name": "包装好",
+			"count": "11"
+			},{
+			"id": "11",
+			"name": "有图评价",
+			"count": "9"
+			}],
+		"score": "4.8",
+		"delivery": "4.8",
+		"packing": "4.9",
+		"flavor": "4.9"
+	}
+}

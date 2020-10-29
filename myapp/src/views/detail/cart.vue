@@ -1,41 +1,124 @@
 <template>
-	<div class="cart-container">
-		<div class="cart-box">
-			<div class="cart-icon" :class="{'active':total}">
-				<span class="iconfont icon-gouwuche1"></span>
-				<span class="num" v-if="total">{{total}}</span>
+	<div>
+		<div class="cart-container">
+			<div class="cart-box">
+				<div class="cart-icon" :class="{'active':total}" @click="isShow=!isShow">
+					<span class="iconfont icon-gouwuche1"></span>
+					<span class="num" v-if="total">{{total}}</span>
+				</div>
+				<div class="cart-price active" @click="isShow=!isShow">
+					<div class="price">￥{{totalPrice.toFixed(2)}}</div>
+					<div class="deliver">另需配送费￥{{seller.fee}}</div>
+				</div>
+				<div class="cart-buy" :class="{'active':totalPrice>=seller.price}">{{buyDesc}}</div>
 			</div>
-			<div class="cart-price active">
-				<div class="price">￥{{totalPrice.toFixed(2)}}</div>
-				<div class="deliver">另需配送费￥{{seller.fee}}</div>
+			<div class="ball-box">
+				<div v-for="(ball,index) in ballList" :key="index">
+					<transition @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter">
+						<div class="ball" v-show="ball.show">
+							<div class="inner"></div>
+						</div>
+					</transition>
+					
+				</div>
 			</div>
-			<div class="cart-buy active" :class="{'active':totalPrice>seller.price}">{{buyDesc}}</div>
+			<transition name="fade">
+				<div class="cart-list-box" v-show="isShow && total">
+					<div class="title"><span @click="clearCart()">清空购物车</span></div>
+					<ul class="list-box">
+						<li class="list" v-for="prod in cartList" :key="prod.id" :class="{'active':prod.count==0}">
+							<span class="name">{{prod.name}}</span>
+							<span class="price">￥{{prod.price}}</span>
+							<addCart :type="prod.type" :index="prod.index"></addCart>
+						</li>
+					</ul>
+				</div>
+			</transition>
+			
 		</div>
+		<div class="mask" v-show="isShow && total" @click="isShow=!isShow"></div>
 	</div>
+	
 </template>
 
 <script>
-import {mapGetters} from 'vuex'
+import {mapGetters,mapState} from 'vuex'
+import addCart from '@/components/addcart'
 export default {
-	
+	data(){
+		return {
+			isShow:false
+		}
+	},
 	computed:{
+		...mapState('ball',["ballList"]),
+		...mapState('product',["cartList"]),
 		...mapGetters('product',["totalPrice","total"]),
 		buyDesc(){
 			if(this.totalPrice == 0){
-				return '￥${this.seller.price}元起送';
+				return `￥${this.seller.price}元起送`;
 			}else if(this.totalPrice < this.seller.price){
-				return '还差￥${this.seller.price-this.totalPrice}元起送';
+				return `还差￥${this.seller.price-this.totalPrice}元起送`;
 			}else{
 				return "去结算";
 			}
 		}
 	},
-	props:["seller"]
+	props:["seller"],
+	components:{
+		addCart
+	},
+	methods:{
+		beforeEnter(el){
+			for(let i=0;i<this.ballList.length;i++){
+				let ball = this.ballList[i];
+				if(ball.show){
+					let pos = ball.el.getBoundingClientRect();
+					let y = window.innerHeight - pos.top -23;//eslint-disable-line no-unused-vars
+					let x = pos.left - 30;//eslint-disable-line no-unused-vars
+					el.display = "";
+					el.style.transform = `translate3d(0,${-y}px,0)`;
+					let inner = el.getElementsByClassName('inner')[0];
+					inner.style.transform = `translate3d(${x}px,0,0)`;
+				}
+			}
+		},
+		enter(el,done){
+			el.offsetWidth;
+			this.$nextTick(()=>{
+				el.style.transform = 'translate3d(0,0,0)';
+				let inner = el.getElementsByClassName('inner')[0];
+				inner.style.transform = 'translate3d(0,0,0)';
+				el.addEventListener('transitionend',done)
+			})
+		},
+		afterEnter(el){
+			el.style.display = "none";
+			//释放小球
+			this.$store.commit('ball/removeBall')
+		},
+		clearCart(){
+			this.$store.commit('product/clearCartList');
+			document.getElementsByClassName("list-box").innerText = "购物车空空的"
+			// clearMsg.innerHTML = "<li class='list' style='font-size: 14px;color: #c4c4c4;'>购物车空空如也...</li>"
+		}
+	}
 }
 </script>
 
 <style lang="scss">
+.mask{
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	background: rgba(7,17,27,0.6);
+	backdrop-filter: blur(10px);
+	z-index: 50;
+}
 .cart-container{
+	z-index: 51;
 	position: fixed;
 	left: 0;
 	bottom: 0;
@@ -44,6 +127,7 @@ export default {
 	background: #3b3b3c;
 	.cart-box{
 		display: flex;
+		background: #3b3b3c;
 		.cart-icon{
 			width: 50px;
 			height: 50px;
@@ -84,6 +168,7 @@ export default {
 			padding-left: 70px;
 			flex: 1;
 			color: #999;
+			background: #3b3b3c;
 			.price{
 				display: none;
 			}
@@ -106,17 +191,82 @@ export default {
 			}
 		}
 		.cart-buy{
-			width: 108px;
+			width: 150px;
 			color: #999;
 			font-size: 14px;
 			font-weight: bold;
 			text-align: center;
 			line-height: 50px;
 			&.active{
+				width: 108px;
 				background: #f8c74e;
 				font-size: 18px;
 				color: #333;
 				font-weight: normal;
+			}
+		}
+	}
+	.ball{ 
+		transition: all 0.4s cubic-bezier(0.48, -0.28, 0.73, 0.42);
+		position: fixed;
+		left: 30px;
+		bottom: 23px;
+		.inner{
+			width: 16px;
+			height: 16px;
+			background: #00a0dc;
+			border-radius: 50%;
+			transition:all 0.4s linear ;
+		}
+		
+	}
+	.fade-enter{
+		transform: translateY(100%);
+	}
+	.fade-enter-active{
+		transition: transform ease 200ms;
+	}
+	.fade-enter-to{
+		transform: translateY(0);
+	}
+	.cart-list-box{
+		font-size: 16px;
+		position: absolute;
+		left: 0;
+		bottom: 50px;
+		width: 100%;
+		z-index: -1;
+		background: white;
+		border-top: 1px solid #e4e4e4;
+		.title{
+			height: 30px;
+			line-height: 30px;
+			padding: 0 10px;
+			text-align: right;
+			font-size: 12px;
+			background: #f4f4f4;
+			color: #2c3e50;
+		}
+		.list-box{
+			padding: 0 10px;
+		}
+		.list{
+			padding: 14px 0;
+			border-bottom: 1px solid #e4e4e4;
+			display: flex;
+			.name{
+				flex: 1;
+				min-width: 0;
+				overflow: hidden;
+				text-overflow: ellipsis;
+				white-space: nowrap;
+			}
+			.price{
+				color:#fb4e44;
+				padding: 0 25px;
+			}
+			&.active{
+				display: none;
 			}
 		}
 	}

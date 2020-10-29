@@ -1,16 +1,23 @@
 {
-  "id": "",
-  "name": "",
+  "id": "2138479",
+  "name": "myapp",
   "font_family": "iconfont",
   "css_prefix_text": "icon-",
   "description": "",
   "glyphs": [
     {
+      "icon_id": "782215",
+      "name": "配送1",
+      "font_class": "peisong1",
+      "unicode": "e6c0",
+      "unicode_decimal": 59072
+    },
+    {
       "icon_id": "956",
       "name": "新",
       "font_class": "xin",
-      "unicode": "f0021",
-      "unicode_decimal": 983073
+      "unicode": "e600",
+      "unicode_decimal": 58880
     },
     {
       "icon_id": "994605",
@@ -57,7 +64,7 @@
     {
       "icon_id": "7617410",
       "name": "返回",
-      "font_class": "fanhui",
+      "font_class": "fanhui1",
       "unicode": "e627",
       "unicode_decimal": 58919
     },
@@ -74,6 +81,13 @@
       "font_class": "gouwuche1",
       "unicode": "e66e",
       "unicode_decimal": 58990
+    },
+    {
+      "icon_id": "2674472",
+      "name": "返回",
+      "font_class": "fanhui",
+      "unicode": "e624",
+      "unicode_decimal": 58916
     }
   ]
 }

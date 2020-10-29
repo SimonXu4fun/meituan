@@ -64,8 +64,8 @@ export default {
 			});
 			this.prodScroll = new BScroll('.prod-box',{
 				bounce:false,
-				probeType:3,
-				// click:true
+				probeType:1,
+				click:false
 			});
 			// 获取右侧每个分类的垂直方向位置
 			this.getPosY();

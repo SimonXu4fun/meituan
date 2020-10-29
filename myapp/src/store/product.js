@@ -3,27 +3,28 @@ import Vue from 'vue'
 const product = {
 	namespaced:true,
 	state:{
-		productList:[]
+		productList:[],
+		cartList:[]
 	},
 	getters:{
 		selectList(state){
-			let result = [];
+			// let result = [];
 			state.productList.forEach(obj=>{
 				obj.content.forEach(prod=>{
 					if(prod.count){
-						result.push(prod);
+						state.cartList.push(prod);
 					}
 				})
 			})
-			return result;
+			return state.cartList;
 		},
-		totalPrice(state,getter){
-			return getter.selectList.reduce((price,prod)=>{
+		totalPrice(state){
+			return state.cartList.reduce((price,prod)=>{
 				return price + prod.count*prod.price;
 			},0)
 		},
-		total(state,getter){
-			return getter.selectList.reduce((total,prod)=>{
+		total(state){
+			return state.cartList.reduce((total,prod)=>{
 				return total + prod.count;
 			},0)
 		}
@@ -34,18 +35,42 @@ const product = {
 		},
 		addCart(state,{type,index}){
 			//分类 索引
+			var isExist = false;
 			let prod = state.productList[type].content[index];
 			if(prod.count){
-				Vue.set(prod,'count',prod.count+1)
+				Vue.set(prod,'count',prod.count+1);
 			}else{
 				Vue.set(prod,'count',1)
 			}
+			for (var i in state.cartList){
+				if (state.cartList[i]){
+					if(state.cartList[i].id == prod.id){
+						state.cartList[i].count++;
+						isExist = true;
+					}
+				}
+			}
+			if (!isExist) {
+				var obj = {...prod};
+				state.cartList.push(obj);
+				isExist = true;
+			}
+			
+			
 		},
 		reduceCart(state,{type,index}){
 			let prod = state.productList[type].content[index];
 			if(prod.count){
 				Vue.set(prod,'count',prod.count-1)
 			}
+			for (var i in state.cartList){
+				if(state.cartList[i].id == prod.id){
+					state.cartList[i].count--;
+				}
+			}
+		},
+		clearCartList(state){
+			state.cartList=[]
 		}
 	},
 	actions:{
@@ -58,14 +83,20 @@ const product = {
 					var prodData = res;
 					for(let item of prodData.data){
 						if(item.store_id == id){
-							commit('saveProdList', item.goods);
+							let list = item.goods;
+							list.forEach((li,type) =>{
+								li.content.forEach((prod,index) =>{
+									prod.type = type;
+									prod.index = index;
+								})
+							})
+							commit('saveProdList', list);
 							resolve()
 						}
 					}
 				})
 			})
 		}
-		
 	}
 }
 
